@@ -5,15 +5,20 @@
 
 ## Configuración del entorno
 
-1. Clona el repositorio:
+0. Dependencias necesarias:
+  ```bash
+   NodeJS : https://nodejs.org/en
+   Sqlite: https://www.sqlite.org/download.html
+   Visual Studio Code : https://code.visualstudio.com/
+   ```
+
+2. Clona el repositorio:
 
    ```bash
    git clone https://github.com/rodrigog898/prueba-tecnica-node.git
    cd prueba-tecnica-node
    cd Proyecto
    ```
-
-2. (Opcional) Ajusta `DB_PATH` si quieres cambiar la ruta o el nombre de la base de datos SQLite.
 
 3. Instala las dependencias del proyecto:
 
