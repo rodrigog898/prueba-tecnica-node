@@ -13,7 +13,7 @@ Este proyecto implementa una API backend en Node.js con Express y SQLite, y una 
    cd Proyecto
    ```
 
-2. Ajusta `DB_PATH` si quieres cambiar la ruta o el nombre de la base de datos SQLite.
+2. (Opcional) Ajusta `DB_PATH` si quieres cambiar la ruta o el nombre de la base de datos SQLite.
 
 3. Instala las dependencias del proyecto:
 
