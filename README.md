@@ -1,7 +1,6 @@
 **Evaluacion Tecnica / Rodrigo Aravena**
 
-Este proyecto implementa una API backend en Node.js con Express y SQLite, y un cliente web estático que se comunica en tiempo real mediante WebSockets usando Socket.IO.
-
+Este proyecto implementa una API backend en Node.js con Express y SQLite, y una interfaz simple que se comunica en tiempo real mediante WebSockets usando Socket.IO.
 ---
 
 ## Configuración del entorno
@@ -11,15 +10,10 @@ Este proyecto implementa una API backend en Node.js con Express y SQLite, y un c
    ```bash
    git clone https://github.com/rodrigog898/prueba-tecnica-node.git
    cd prueba-tecnica-node
+   cd Proyecto
    ```
 
-2. (Opcional) Crea un archivo de variables de entorno en la raíz :
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   * Ajusta `DB_PATH` si quieres cambiar la ruta o el nombre de la base de datos SQLite.
+2. Ajusta `DB_PATH` si quieres cambiar la ruta o el nombre de la base de datos SQLite.
 
 3. Instala las dependencias del proyecto:
 
@@ -27,25 +21,11 @@ Este proyecto implementa una API backend en Node.js con Express y SQLite, y un c
    npm install
    ```
 
-4. (Opcional) instala dependencias de desarrollo:
-
-   ```bash
-   npm install --save-dev nodemon
-   ```
-
 ---
 
 ## Ejecución de la aplicación
 
-* Para ejecutar en modo desarrollo (auto-reinicio al cambiar código):
-
-  ```bash
-  npm run dev
-  ```
-
-  Esto usa **nodemon** para levantar el servidor.
-
-* Para iniciar en modo producción:
+* Para iniciar:
 
   ```bash
   npm start
@@ -53,7 +33,7 @@ Este proyecto implementa una API backend en Node.js con Express y SQLite, y un c
 
 * La API quedará disponible en `http://localhost:3000/api/tasks`.
 
-* El cliente web estático se sirve desde `http://localhost:3000/`.
+* Interfaz web `http://localhost:3000/`.
 
 ---
 
