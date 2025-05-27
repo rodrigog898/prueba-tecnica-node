@@ -10,12 +10,11 @@ Content-Type: application/json
 GET http://localhost:3000/api/tasks
 
 ### Actualizar una tarea
-PUT http://localhost:3000/api/tasks/12
+PUT http://localhost:3000/api/tasks/22
 Content-Type: application/json
 
 {
-
-  "status": "listo"
+  "status": "completadisima"
 }
 
 ### Eliminar una tarea

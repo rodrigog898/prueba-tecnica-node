@@ -31,20 +31,27 @@ async function handleGetTasks(req, res, next) {
 async function handleUpdateTask(req, res, next) {
   try {
     const { id } = req.params;
-    const { titulo, descripcion, status } = req.body;
-    if (titulo === undefined && descripcion === undefined && status === undefined) {
-      return res.status(400).json({ error: 'Debe enviar al menos titulo, descripcion o status' });
+    const { status } = req.body;
+    if (status === undefined) {
+      return res
+        .status(400)
+        .json({ error: 'Debe enviar el campo "status" en el body' });
     }
 
-    const task = await updateTask(id, titulo, descripcion, status);
+    // actualiza sólo el status
+    const task = await updateTask(id, undefined, undefined, status);
+
+    // responde con la tarea completa (opcional)
     res.status(200).json(task);
 
+    // ¡EMIT modificado para enviar sólo id y status!
     const io = req.app.get('io');
-    io.emit('taskUpdated', task);
+    io.emit('taskUpdated', { id: task.id, status: task.status });
   } catch (err) {
     next(err);
   }
 }
+
 
 
 async function handleDeleteTask(req, res, next) {
