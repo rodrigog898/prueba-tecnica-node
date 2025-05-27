@@ -46,7 +46,7 @@ async function handleUpdateTask(req, res, next) {
 
     // ¡EMIT modificado para enviar sólo id y status!
     const io = req.app.get('io');
-    io.emit('taskUpdated', { id: task.id, status: task.status });
+    io.emit('taskUpdated', {id: task.id, status: task.status});
   } catch (err) {
     next(err);
   }

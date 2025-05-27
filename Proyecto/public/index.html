@@ -53,48 +53,59 @@
       color: var(--text-primary);
       line-height: 1.6;
       transition: all 0.3s ease;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
       min-height: 100vh;
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
+    .app-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    .header h1 {
-      font-size: 2.5rem;
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-info h1 {
+      font-size: 1.75rem;
       font-weight: 700;
       background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
     }
 
-    .header p {
+    .header-info p {
       color: var(--text-secondary);
-      font-size: 1.1rem;
-      font-weight: 400;
+      font-size: 0.9rem;
     }
 
     .theme-toggle {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: var(--surface);
+      background: var(--background);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
-      padding: 0.5rem;
+      padding: 0.75rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .theme-toggle:hover {
@@ -102,33 +113,54 @@
       transform: scale(1.05);
     }
 
-    .task-form {
+    .main-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* PANEL IZQUIERDO - FORMULARIO */
+    .left-panel {
       background: var(--surface);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
       padding: 2rem;
-      margin-bottom: 2rem;
+      height: fit-content;
+      position: sticky;
+      top: 120px;
       box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
     }
 
-    .task-form:hover {
-      box-shadow: var(--shadow-md);
+    .panel-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .task-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
     .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group:last-child {
-      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
     .form-label {
-      display: block;
       font-weight: 500;
       color: var(--text-primary);
-      margin-bottom: 0.5rem;
       font-size: 0.9rem;
     }
 
@@ -154,13 +186,13 @@
 
     .form-textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 100px;
     }
 
     .form-actions {
       display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
+      flex-direction: column;
+      gap: 0.75rem;
     }
 
     .btn {
@@ -173,6 +205,7 @@
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
       font-family: inherit;
     }
@@ -182,14 +215,20 @@
       color: white;
     }
 
-    .btn-primary:hover {
+    .btn-primary:hover:not(:disabled) {
       background: var(--primary-hover);
       transform: translateY(-1px);
       box-shadow: var(--shadow-md);
     }
 
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .btn-secondary {
-      background: var(--surface);
+      background: var(--background);
       color: var(--text-secondary);
       border: 1px solid var(--border-color);
     }
@@ -213,7 +252,7 @@
       color: white;
     }
 
-    .btn-success:hover {
+    .btn-success:hover:not(:disabled) {
       background: #059669;
     }
 
@@ -222,33 +261,52 @@
       color: white;
     }
 
-    .btn-danger:hover {
+    .btn-danger:hover:not(:disabled) {
       background: #dc2626;
     }
 
-    .tasks-container {
+    /* PANEL DERECHO - LISTA DE TAREAS */
+    .right-panel {
       background: var(--surface);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 160px);
     }
 
     .tasks-header {
       padding: 1.5rem 2rem;
       border-bottom: 1px solid var(--border-color);
       background: var(--background);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .tasks-header h2 {
       font-size: 1.25rem;
       font-weight: 600;
       color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .task-counter {
+      background: var(--primary-color);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
     }
 
     .tasks-list {
       list-style: none;
-      max-height: 600px;
+      flex: 1;
       overflow-y: auto;
     }
 
@@ -281,6 +339,7 @@
       margin-bottom: 0.25rem;
       word-wrap: break-word;
       transition: all 0.2s ease;
+      font-size: 1rem;
     }
 
     .task-description {
@@ -288,6 +347,13 @@
       font-size: 0.9rem;
       line-height: 1.5;
       word-wrap: break-word;
+      margin-bottom: 0.75rem;
+    }
+
+    .task-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .task-status {
@@ -298,7 +364,6 @@
       border-radius: 9999px;
       font-size: 0.75rem;
       font-weight: 500;
-      margin-top: 0.5rem;
     }
 
     .task-status.pendiente {
@@ -309,6 +374,11 @@
     .task-status.completada {
       background: rgb(16 185 129 / 0.1);
       color: var(--accent-color);
+    }
+
+    .task-status.listo {
+      background: rgb(99 102 241 / 0.1);
+      color: var(--primary-color);
     }
 
     .task-item.completed .task-title {
@@ -349,6 +419,22 @@
       font-size: 0.9rem;
     }
 
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top: 2px solid currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     @keyframes slideIn {
       from {
         opacity: 0;
@@ -375,25 +461,48 @@
       animation: slideOut 0.3s ease forwards;
     }
 
-    @media (max-width: 768px) {
-      .container {
-        padding: 1rem;
-      }
-
-      .header h1 {
-        font-size: 2rem;
-      }
-
-      .task-form {
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 350px 1fr;
+        gap: 1.5rem;
         padding: 1.5rem;
       }
 
-      .form-actions {
-        flex-direction: column;
+      .left-panel {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 1rem;
       }
 
-      .btn {
-        justify-content: center;
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .main-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .left-panel {
+        position: static;
+        order: 1;
+      }
+
+      .right-panel {
+        order: 2;
+        max-height: 60vh;
+      }
+
+      .form-actions {
+        flex-direction: row;
       }
 
       .task-item {
@@ -407,82 +516,127 @@
         justify-content: flex-end;
       }
 
-      .theme-toggle {
-        position: static;
-        margin: 1rem auto 0;
-        display: block;
-        width: fit-content;
-      }
-
-      .header {
-        margin-bottom: 2rem;
+      .task-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
       }
     }
 
-    .loading {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid transparent;
-      border-top: 2px solid currentColor;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+    @media (max-width: 480px) {
+      .header-info h1 {
+        font-size: 1.5rem;
+      }
+
+      .main-content {
+        padding: 0.5rem;
+      }
+
+      .left-panel,
+      .right-panel {
+        border-radius: var(--radius-sm);
+      }
+
+      .left-panel {
+        padding: 1rem;
+      }
+
+      .tasks-header {
+        padding: 1rem;
+      }
+
+      .task-item {
+        padding: 1rem;
+      }
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+    /* Scrollbar personalizado */
+    .tasks-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .tasks-list::-webkit-scrollbar-track {
+      background: var(--surface);
+    }
+
+    .tasks-list::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+
+    .tasks-list::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="app-container">
+    <!-- HEADER -->
     <header class="header">
-      <button class="theme-toggle" id="theme-toggle" title="Cambiar tema">🌙</button>
-      <h1>TaskFlow</h1>
-      <p>Gestiona tus tareas de manera eficiente y en tiempo real</p>
+      <div class="header-content">
+        <div class="header-info">
+          <h1>To Do</h1>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" title="Cambiar tema">
+          <span id="theme-icon">🌙</span>
+          <span id="theme-text">Modo Oscuro</span>
+        </button>
+      </div>
     </header>
 
-    <form class="task-form" id="task-form">
-      <div class="form-group">
-        <label class="form-label" for="titulo">Título de la tarea</label>
-        <input 
-          class="form-input" 
-          id="titulo" 
-          type="text" 
-          placeholder="Ej: Completar informe mensual" 
-          maxlength="100" 
-          required 
-        />
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" for="descripcion">Descripción (opcional)</label>
-        <textarea 
-          class="form-textarea" 
-          id="descripcion" 
-          placeholder="Añade detalles adicionales sobre la tarea..." 
-          maxlength="500"
-        ></textarea>
-      </div>
-      
-      <div class="form-actions">
-        <button type="button" class="btn btn-secondary" id="clear-form">
-          🗑️ Limpiar
-        </button>
-        <button type="submit" class="btn btn-primary" id="submit-btn">
-          ➕ Agregar Tarea
-        </button>
-      </div>
-    </form>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+      <!-- PANEL IZQUIERDO - FORMULARIO -->
+      <aside class="left-panel">
+        <h2 class="panel-title">
+          ➕ Nueva Tarea
+        </h2>
+        
+        <form class="task-form" id="task-form">
+          <div class="form-group">
+            <label class="form-label" for="titulo">Título de la tarea *</label>
+            <input 
+              class="form-input" 
+              id="titulo" 
+              type="text" 
+              placeholder="Ej: Completar informe mensual" 
+              maxlength="100" 
+              required 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="descripcion">Descripción</label>
+            <textarea 
+              class="form-textarea" 
+              id="descripcion" 
+              placeholder="Añade detalles adicionales sobre la tarea..." 
+              maxlength="500"
+            ></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="submit-btn">
+              ➕ Agregar Tarea
+            </button>
+            <button type="button" class="btn btn-secondary" id="clear-form">
+              🗑️ Limpiar Formulario
+            </button>
+          </div>
+        </form>
+      </aside>
 
-    <div class="tasks-container">
-      <div class="tasks-header">
-        <h2>Mis Tareas</h2>
-      </div>
-      <ul class="tasks-list" id="tasks"></ul>
-    </div>
+      <!-- PANEL DERECHO - LISTA DE TAREAS -->
+      <section class="right-panel">
+        <div class="tasks-header">
+          <h2>
+            📋 Mis Tareas
+      
+          </h2>
+        </div>
+        <ul class="tasks-list" id="tasks"></ul>
+      </section>
+    </main>
   </div>
 
   <!-- Cliente Socket.IO -->
@@ -545,7 +699,7 @@
             </div>
           </div>
           <div class="task-actions">
-            <button class="btn btn-icon btn-success" data-action="toggle" title="${isCompleted ? 'Marcar como pendiente' : 'Marcar como completada'}">
+            <button style= "visibility: hidden" class="btn btn-icon btn-success" data-action="toggle" title="${isCompleted ? 'Marcar como pendiente' : 'Marcar como completada'}">
               ${isCompleted ? '↩️' : '✅'}
             </button>
             <button class="btn btn-icon btn-danger" data-action="delete" title="Eliminar tarea">
@@ -635,6 +789,31 @@
       }
     }
 
+    // 1) Función que actualiza sólo el status en el DOM
+    function updateTaskStatus(id, status) {
+      const li = document.getElementById(`task-${id}`);
+      if (!li) return;
+
+      const isCompleted = status === 'completada';
+      // toggle clase
+      li.classList.toggle('completed', isCompleted);
+
+      // actualiza etiqueta de estado
+      const statusEl = li.querySelector('.task-status');
+      statusEl.className = `task-status ${status}`;
+      statusEl.textContent = `${isCompleted ? '✅' : '⏳'} ${status}`;
+
+      // si tuvieras botón de toggle, también lo actualizas:
+      const toggleBtn = li.querySelector('[data-action=toggle]');
+      if (toggleBtn) {
+        toggleBtn.innerHTML = isCompleted ? '↩️' : '✅';
+        toggleBtn.title = isCompleted
+          ? 'Marcar como pendiente'
+          : 'Marcar como completada';
+      }
+    }
+
+
     // Simple notification system
     function showNotification(message, type = 'info') {
       // You can implement a more sophisticated notification system here
@@ -719,8 +898,8 @@
       showNotification('Nueva tarea agregada', 'info');
     });
 
-    socket.on('taskUpdated', ({ id, status }) => {      
-      renderTask(task);
+    socket.on('taskUpdated', ({ id, status }) => {
+      updateTaskStatus(id, status);
       showNotification('Tarea actualizada', 'info');
     });
 
