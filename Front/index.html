@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Tareas en Tiempo Real</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; }
+    h1 { text-align: center; }
+    form { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    input, textarea { flex: 1; padding: 0.5rem; }
+    button { padding: 0.5rem 1rem; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 0.5rem; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; }
+    .completada { text-decoration: line-through; color: #888; }
+    .actions button { margin-left: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>To-Do List (Tiempo Real)</h1>
+
+  <form id="task-form">
+    <input id="titulo" type="text" placeholder="Título (máx. 100 caracteres)" maxlength="100" required />
+    <textarea id="descripcion" placeholder="Descripción (opcional, máx. 500 caracteres)" maxlength="500"></textarea>
+    <button type="submit">Agregar</button>
+  </form>
+
+  <ul id="tasks"></ul>
+
+  <!-- Cliente Socket.IO (asume que tu servidor lo sirve en /socket.io/socket.io.js) -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const apiBase = '/api/tasks';
+    const tasksUl = document.getElementById('tasks');
+    const form = document.getElementById('task-form');
+
+    // Renderiza (o actualiza) una tarea en la lista
+    function renderTask(task) {
+      let li = document.getElementById(`task-${task.id}`);
+      const completedClass = task.status === 'completada' ? 'completada' : '';
+      if (!li) {
+        li = document.createElement('li');
+        li.id = `task-${task.id}`;
+        li.innerHTML = `
+          <span class="text ${completedClass}"></span>
+          <div class="actions">
+            <button data-action="toggle">✔</button>
+            <button data-action="delete">✖</button>
+          </div>
+        `;
+        tasksUl.appendChild(li);
+
+        // Manejadores de botón
+        li.querySelector('[data-action=toggle]').onclick = () => {
+          const nuevoEstado = task.status === 'pendiente' ? 'completada' : 'pendiente';
+          fetch(`${apiBase}/${task.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: nuevoEstado })
+          });
+        };
+        li.querySelector('[data-action=delete]').onclick = () => {
+          fetch(`${apiBase}/${task.id}`, { method: 'DELETE' });
+        };
+      }
+      // Actualiza texto y clase
+      li.querySelector('.text').textContent = `[${task.status}] ${task.titulo}`;
+      li.querySelector('.text').className = `text ${completedClass}`;
+    }
+
+    // Elimina una tarea del DOM
+    function removeTask(id) {
+      const li = document.getElementById(`task-${id}`);
+      if (li) li.remove();
+    }
+
+    // Carga inicial
+    fetch(apiBase)
+      .then(res => res.json())
+      .then(tasks => tasks.forEach(renderTask))
+      .catch(console.error);
+
+    // Alta de nuevas tareas
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const titulo = document.getElementById('titulo').value.trim();
+      const descripcion = document.getElementById('descripcion').value.trim();
+      if (!titulo) return;
+      fetch(apiBase, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo, descripcion })
+      })
+      .then(res => res.json())
+      .then(task => {
+        form.reset();
+        // No es necesario llamar renderTask aquí porque llegará vía WS
+      })
+      .catch(console.error);
+    });
+
+    // Conexión a Socket.IO
+    const socket = io();
+
+    socket.on('newTask', task => {
+      renderTask(task);
+    });
+
+    socket.on('taskUpdated', ({ id, status }) => {
+      // Trae la tarea actualizada desde la API para tener todos los campos
+      fetch(`${apiBase}/${id}`)
+        .then(res => res.json())
+        .then(renderTask)
+        .catch(console.error);
+    });
+
+    socket.on('taskDeleted', ({ id }) => {
+      removeTask(id);
+    });
+  </script>
+</body>
+</html>

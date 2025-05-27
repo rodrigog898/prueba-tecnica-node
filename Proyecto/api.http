@@ -1,0 +1,24 @@
+### Crear una nueva tarea
+POST http://localhost:3000/api/tasks
+Content-Type: application/json
+
+{
+  "titulo": "juan",
+  "descripcion": "Comprar leche y pan"
+}
+### Traer todas las tareas
+GET http://localhost:3000/api/tasks
+
+### Actualizar una tarea
+PUT http://localhost:3000/api/tasks/12
+Content-Type: application/json
+
+{
+
+  "status": "listo"
+}
+
+### Eliminar una tarea
+DELETE http://localhost:3000/api/tasks/3
+
+
