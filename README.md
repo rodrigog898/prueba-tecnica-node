@@ -1,6 +1,6 @@
-# Evaluacion Tecnica / Rodrigo Aravena*
+# Evaluacion Tecnica / Rodrigo Aravena
 
-**Este proyecto implementa una API backend en Node.js con Express y SQLite, y una interfaz simple que se comunica en tiempo real mediante WebSockets usando Socket.IO.**
+
 ---
 
 ## Configuración del entorno
